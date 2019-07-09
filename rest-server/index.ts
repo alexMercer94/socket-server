@@ -4,7 +4,7 @@ import Server from './classes/server';
 import { SERVER_PORT } from './global/environment';
 import router from './routes/router';
 
-const server = new Server();
+const server = Server.instance;
 
 // Settings
 server.app.use(bodyParser.urlencoded({ extended: true }));

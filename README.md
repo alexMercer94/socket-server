@@ -11,5 +11,5 @@ tsc -w
 >To start server use this command:
 
 ``````
-nodemon dist/
+nodemon rest-server/dist/
 ``````
