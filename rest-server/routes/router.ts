@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import Server from '../classes/server';
+import { usersConnected } from '../sockets/sockets';
 
 const router = Router();
 
@@ -10,6 +11,9 @@ router.get('/messages', (req: Request, res: Response) => {
     });
 });
 
+/**
+ * Route send a message to all users
+ */
 router.post('/messages', (req: Request, res: Response) => {
     const { message, from } = req.body;
 
@@ -48,6 +52,37 @@ router.post('/messages/:id', (req: Request, res: Response) => {
         body: cuerpo,
         from,
         id
+    });
+});
+
+/**
+ * Route to get all User's IDs
+ */
+router.get('/users', (req: Request, res: Response) => {
+    const server = Server.instance;
+
+    server.io.clients((err: any, clients: string[]) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                err
+            });
+        }
+
+        res.json({
+            ok: true,
+            clients
+        });
+    });
+});
+
+/**
+ * Router to get users and their names
+ */
+router.get('/users/detail', (req: Request, res: Response) => {
+    res.json({
+        ok: true,
+        clients: usersConnected.getList()
     });
 });
 

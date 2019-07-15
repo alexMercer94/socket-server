@@ -36,7 +36,7 @@ export class UsersList {
      * Get Users List
      */
     public getList(): User[] {
-        return this.list;
+        return this.list.filter(user => user.name != 'unknown');
     }
 
     /**
