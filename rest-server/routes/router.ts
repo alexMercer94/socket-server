@@ -1,14 +1,30 @@
 import { Request, Response, Router } from 'express';
+import { ChartData } from '../classes/chart';
 import Server from '../classes/server';
 import { usersConnected } from '../sockets/sockets';
 
 const router = Router();
 
-router.get('/messages', (req: Request, res: Response) => {
-    res.json({
-        ok: true,
-        message: 'Everythin is ok!'
-    });
+const chart = new ChartData();
+
+/**
+ * Route to get Chart's data
+ */
+router.get('/chart', (req: Request, res: Response) => {
+    res.json(chart.getChartData());
+});
+
+/**
+ * Route to update the Chart's Data
+ */
+router.post('/chart', (req: Request, res: Response) => {
+    const { month, units } = req.body;
+    chart.incrementValue(month, Number(units));
+
+    const server = Server.instance;
+    server.io.emit('change-chart', chart.getChartData());
+
+    res.json(chart.getChartData());
 });
 
 /**
