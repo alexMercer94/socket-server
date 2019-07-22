@@ -2,6 +2,10 @@ export class ChartData {
     private months: string[] = ['enero', 'febrero', 'marzo', 'abril'];
     private values: number[] = [1, 2, 3, 4];
 
+    // ! Bar Chart Properties
+    private labels: string[] = [];
+    private _values: number[] = [0, 0, 0, 0];
+
     constructor() {}
 
     /**
@@ -26,5 +30,28 @@ export class ChartData {
         }
 
         return this.getChartData();
+    }
+
+    // ! Bar Chart Methods
+
+    setLabels(labels: string[]): void {
+        this.labels = labels;
+    }
+
+    /**
+     * Get Encuesta data
+     */
+    getEncuestaData(): { data: number[]; label: string }[] {
+        return [{ data: this._values, label: 'Preguntas' }];
+    }
+
+    /**
+     * Increment Values's value in Encuesta Bar Chart
+     * @param option Option to increment
+     * @param value Value to change
+     */
+    incrementValues(option: number, value: number): { data: number[]; label: string }[] {
+        this._values[option] += value;
+        return this.getEncuestaData();
     }
 }

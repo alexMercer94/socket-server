@@ -8,6 +8,26 @@ const router = Router();
 const chart = new ChartData();
 
 /**
+ * Route to get Encueta's data
+ */
+router.get('/encuesta', (req: Request, res: Response) => {
+    res.json(chart.getEncuestaData());
+});
+
+/**
+ * Route to update Encuesta's data
+ */
+router.post('/encuesta', (req: Request, res: Response) => {
+    const { option, units } = req.body;
+    chart.incrementValues(Number(option), Number(units));
+
+    const server = Server.instance;
+    server.io.emit('change-encuesta', chart.getEncuestaData());
+
+    res.json(chart.getEncuestaData());
+});
+
+/**
  * Route to get Chart's data
  */
 router.get('/chart', (req: Request, res: Response) => {
