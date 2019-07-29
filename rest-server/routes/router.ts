@@ -1,11 +1,46 @@
 import { Request, Response, Router } from 'express';
 import { ChartData } from '../classes/chart';
+import { Map } from '../classes/map';
 import Server from '../classes/server';
 import { usersConnected } from '../sockets/sockets';
 
 const router = Router();
 
 const chart = new ChartData();
+
+// * Routes for Maps App
+export const map = new Map();
+const places = [
+    {
+        id: '1',
+        name: 'Udemy',
+        lat: 37.784679,
+        lng: -122.395936
+    },
+    {
+        id: '2',
+        name: 'Bahía de San Francisco',
+        lat: 37.798933,
+        lng: -122.377732
+    },
+    {
+        id: '3',
+        name: 'The Palace Hotel',
+        lat: 37.788578,
+        lng: -122.401745
+    }
+];
+
+map.markers.push(...places);
+
+/**
+ * Route to get Markers
+ */
+router.get('/map', (req: Request, res: Response) => {
+    res.json(map.getMarkers());
+});
+
+// * Routes for CHART APP
 
 /**
  * Route to get Encueta's data

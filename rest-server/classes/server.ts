@@ -50,6 +50,11 @@ export default class Server {
 
             // Disconnect
             socket.disconnect(client, this.io);
+
+            // * Maps
+            socket.newMarker(client);
+            socket.deleteMarker(client);
+            socket.moveMarker(client);
         });
     }
 
